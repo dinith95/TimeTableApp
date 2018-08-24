@@ -1,0 +1,39 @@
+#date{
+
+}
+#DateNTime{
+  display: flex;
+  flex-direction: row;
+
+}
+.dateTime{
+  font-size: 30px;
+  color: darkblue;
+}
+
+
+/* *************  table related propertese **************/
+table{
+  width: 100%;
+}
+
+th{
+  background-color: #9dffe9;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.hall{
+  background-color: #b4ffe9;
+  font-size: 15px;
+}
+.f1{
+  background-color: beige;
+}
+
+.f2{
+
+  background-color: greenyellow;
+}
+
+
