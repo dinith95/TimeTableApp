@@ -1,5 +1,7 @@
-export interface CurrentViewFormat {
-  previousSlot: string;
-  currentSlot: string;
-  nextSlot: string;
+import Lecture from './Lecture';
+
+export  class CurrentViewFormat {
+  previousSlot: Lecture;
+  currentSlot: Lecture;
+  nextSlot: Lecture;
 }
