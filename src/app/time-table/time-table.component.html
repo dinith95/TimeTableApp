@@ -46,6 +46,16 @@
       <td mat-cell *matCellDef="let element" class={{element.floor}}> {{element.t13to14}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="t14to15">
+      <th mat-header-cell *matHeaderCellDef> 2 P.M. - 3 P.M. </th>
+      <td mat-cell *matCellDef="let element" class={{element.floor}}> {{element.t14to15}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="t15to16">
+      <th mat-header-cell *matHeaderCellDef> 3 P.M. - 4 P.M. </th>
+      <td mat-cell *matCellDef="let element" class={{element.floor}}> {{element.t15to16}} </td>
+    </ng-container>
+
 
     <!-- finally adding the created templaes to the table-->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
