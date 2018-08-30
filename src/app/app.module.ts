@@ -12,12 +12,14 @@ import {MatCardModule,
 
 
 } from '@angular/material';
+import { CurrentViewComponent } from './current-view/current-view.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TimeTableComponent,
+    CurrentViewComponent,
   ],
   imports: [
     BrowserModule,
