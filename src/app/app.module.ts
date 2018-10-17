@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NgModule } from '@angular/core';
+import {ChangeDetectorRef, NgModule} from '@angular/core';
+import {Router} from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,4 +32,17 @@ import { CurrentViewComponent } from './current-view/current-view.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+  constructor(private  router: Router) {
+
+    setInterval(function () {
+
+      router.navigate(['current']);
+
+    }, 4000);
+    setInterval( function () {
+      router.navigate(['']);
+    }, 8000);
+  }
+}
