@@ -26,10 +26,12 @@ export class CurrentViewComponent implements OnInit {
 
   constructor(db: AngularFireDatabase) {
     this.time = new Date();
-    const onj  = new CurrentViewController(db);
+    // this.CurrentViewController  = new CurrentViewController(db);
+    // this.CurrentViewController.getLectureDetails();
+    this.database = db;
 
   }
-
+  database: object ;
   timeSlotPrevios: string;
   timeslotCurrent: string;
   timeSlotNext: string;
@@ -85,6 +87,9 @@ export class CurrentViewComponent implements OnInit {
       endTime = (time - 11) + ' P.M.';
     }
     this.timeSlotNext = startTime + ' - ' + endTime;
+
+    new  CurrentViewController(this.database).getLectureShedule();
+
   }
   }
 
