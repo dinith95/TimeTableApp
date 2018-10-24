@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CurrentViewFormat} from '../Controller/CurrentViewDataloader';
-
+import { CurrentViewController} from '../Controller/CurrentViewController';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 const timeTableData: CurrentViewFormat[] = [
   {
@@ -23,8 +24,10 @@ const timeTableData: CurrentViewFormat[] = [
 
 export class CurrentViewComponent implements OnInit {
 
-  constructor() {
+  constructor(db: AngularFireDatabase) {
     this.time = new Date();
+    const onj  = new CurrentViewController(db);
+
   }
 
   timeSlotPrevios: string;

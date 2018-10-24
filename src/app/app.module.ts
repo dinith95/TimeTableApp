@@ -2,7 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ChangeDetectorRef, NgModule} from '@angular/core';
 import {Router} from '@angular/router';
-
+// import  angular.module('myModule', ['ds.clock']);
+// import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {environment} from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +18,8 @@ import {MatCardModule,
 
 } from '@angular/material';
 import { CurrentViewComponent } from './current-view/current-view.component';
+
+
 
 
 @NgModule({
@@ -28,6 +34,9 @@ import { CurrentViewComponent } from './current-view/current-view.component';
     BrowserAnimationsModule,
     MatCardModule,
     MatTableModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    // AngularFirestoreModule,
+    AngularFireDatabaseModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

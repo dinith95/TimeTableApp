@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PeriodicElement} from '../Controller/DataLoader';
+// import angular.module('myModule', ['ds.clock']);
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {hall: '1', t8to9: 'sub1a', t9to10: 'sub2a' , t10to11: 'sub3a', t11to12: 'sub4a' ,
@@ -27,15 +28,23 @@ export class TimeTableComponent implements OnInit {
   displayedColumns: string[] = ['Hall', 't8to9', 't9to10' , 't10to11' , 't11to12' , 't13to14', 't14to15' , 't15to16'];
 
   ngOnInit() {
-    this.todayDate = this.months[this.date.getMonth()] + ' ' + this.date.getDate() + ', '
-      + this.weekdays[this.date.getDay()];
-    this.todayTime = this.date.getHours() + ' : ' + this.date.getMinutes() + ' : ' + this.date.getSeconds();
+      // setInterval(function () {
+      //
+      // },1000);
+
+      // this.date = new Date();
+      this.todayDate = this.months[this.date.getMonth()] + ' ' + this.date.getDate() + ', '
+        + this.weekdays[this.date.getDay()];
+      this.todayTime = this.date.getHours() + ' : ' + this.date.getMinutes() + ' : ' + this.date.getSeconds();
+      // this.timer();
+
   }
 
   private timer(): void {
     this.time = new Date();
+    console.log(this.time);
     this.todayTime = this.time.getHours() + ' : ' + this.time.getMinutes() + ' : ' + this.time.getSeconds();
-    setTimeout(this.timer(), 1000);
+
   }
 
 }
