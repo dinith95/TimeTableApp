@@ -1,14 +1,15 @@
 // import { environment } from '../../environments/environment';
 import {AngularFireDatabase} from '@angular/fire/database';
+import lecture, {default as Lecture} from './Lecture';
 // import {equal} from "assert";
 
 
 
 export  class CurrentViewController {
   // var database ;
-  output: object[] = [];
+  output: Lecture[] = [] ;
   db: object ;
-  date: String = '';
+  date: number ;
   constructor(db: AngularFireDatabase) {
     this.db = db;
     this.date = new Date().getDay();
@@ -23,25 +24,29 @@ export  class CurrentViewController {
 
   getLectureShedule() {
     const time = new Date();
-    let prevTimeHrs = time.getHours() - 1 ;
-    let nextTimeHrs = time.getHours() + 1   ;
-    if (prevTimeHrs === -1) {
-      prevTimeHrs = 24 ;
+
+    let prevTimeStart = time.getHours() - 1 ;
+    let nextTimeStart = time.getHours() + 1   ;
+    if (prevTimeStart === -1) {
+      prevTimeStart = 24 ;
     }
-    if ( nextTimeHrs === 24) {
-      nextTimeHrs = 0;
+    if ( nextTimeStart === 24) {
+      nextTimeStart = 0;
     }
-    const prevTimeStr = prevTimeHrs + ':' + time.getMinutes();
-    const nowTimeStr = time.getHours() + ':' + time.getMinutes();
-    const  nextTimeStr = nextTimeHrs + ':' + time.getMinutes();
-    console.log(prevTimeStr);
-    console.log(nowTimeStr);
-    console.log(nextTimeStr);
-    this.getLectureTimeDetails(prevTimeStr);
+    const prevTimeStartStr = prevTimeStart + ':00' ;
+    const nowTimeStartStr = time.getHours() + ':00';
+    const  nextTimeStartStr = nextTimeStart + ':00';
+    console.log(prevTimeStartStr);
+    console.log(nowTimeStartStr);
+    console.log(nextTimeStartStr);
+    this.getTimeLecs(prevTimeStartStr , nowTimeStartStr);
   }
-  getLectureTimeDetails(timeStr) {
-    console.log(timeStr);
-    this.db.list('/' + this.date , ref => ref.orderByChild('startTime').endAt('08:30'))
+  getTimeLecs( timeStart , timeEnd) {
+    this.output.length = 0;
+    console.log(timeStart);
+    console.log(timeEnd);
+    // to get the lectures which started during that period or continuing from previous periods
+    this.db.list('/' + this.date , ref => ref.orderByChild('startTime').endAt('08:00'))
       .valueChanges().subscribe(data => {
       data.forEach(d => {
         if (d.endTime > '08:30' ) {
@@ -56,5 +61,7 @@ export  class CurrentViewController {
 
       console.log(data);
     });
+    return this.output;
+    // getPreviousLectures(timeStr)
   }
 }

@@ -45,13 +45,13 @@ export class AppModule {
 
   constructor(private  router: Router) {
 
-    setInterval(function () {
-
-      router.navigate(['current']);
-
-    }, 4000);
-    setInterval( function () {
-      router.navigate(['']);
-    }, 8000);
+    // setInterval(function () {
+    //
+    //   router.navigate(['current']);
+    //
+    // }, 4000);
+    // setInterval( function () {
+    //   router.navigate(['']);
+    // }, 8000);
   }
 }
