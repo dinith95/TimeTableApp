@@ -13,19 +13,19 @@ import {AngularFireDatabase} from '@angular/fire/database';
 })
 
 export class CurrentViewComponent implements OnInit {
-  timeTableData: CurrentViewFormat[] = [
-    {
-      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-      currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
-      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
-    },
-    {
-      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-      currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
-      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
-    },
-  ];
-
+  // timeTableData: CurrentViewFormat[] = [
+  //   {
+  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+  //     currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
+  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
+  //   },
+  //   {
+  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+  //     currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
+  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
+  //   },
+  // ];
+  timeTableData: CurrentViewFormat = [];
 // previousSlotInfo: object[] = [
 //   {
 //     code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'
@@ -60,6 +60,7 @@ export class CurrentViewComponent implements OnInit {
     // this.CurrentViewController  = new CurrentViewController(db);
     // this.CurrentViewController.getLectureDetails();
     this.database = db;
+    this.timeTableData = new CurrentViewController(this.database).getLectureShedule();
 
   }
   database: object ;
@@ -119,7 +120,7 @@ export class CurrentViewComponent implements OnInit {
     }
     this.timeSlotNext = startTime + ' - ' + endTime;
 
-    new  CurrentViewController(this.database).getLectureShedule();
+
 
   }
   }

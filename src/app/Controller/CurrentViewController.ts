@@ -1,8 +1,9 @@
 // import { environment } from '../../environments/environment';
 import {AngularFireDatabase} from '@angular/fire/database';
 import lecture, {default as Lecture} from './Lecture';
-import {combineAll} from "rxjs/internal/operators";
-import {async} from "@angular/core/testing";
+// import {combineAll} from "rxjs/internal/operators";
+// import {async} from "@angular/core/testing";
+import {CurrentViewFormat} from '../Controller/CurrentViewDataloader';
 // import
 // import {equal} from "assert";
 
@@ -10,12 +11,18 @@ import {async} from "@angular/core/testing";
 
 export  class CurrentViewController {
   // var database ;
-  output: Lecture[] = [] ;
+  // output: Lecture[] = [] ;
   previousData: Lecture[] = [];
-  currentData: Lecture[] =[];
+  currentData: Lecture[] = [];
   nextData: Lecture[] = [];
+  timeTableData: currentViewFormat[] = [];
   db: object ;
   date: number ;
+  // the time periods variables
+  prevTimeStartStr: string;
+  nowTimeStartStr: string;
+  nextTimeStartStr: string;
+  nextTimeEnd: number;
   constructor(db: AngularFireDatabase) {
     this.db = db;
     this.date = new Date().getDay();
@@ -33,50 +40,54 @@ export  class CurrentViewController {
 
     let prevTimeStart = time.getHours() - 1 ;
     let nextTimeStart = time.getHours() + 1   ;
-    let nextTimeEnd = time.getHours() + 2;
+
     if (prevTimeStart === -1) {
       prevTimeStart = 24 ;
     }
     if ( nextTimeStart >= 24) {
       nextTimeStart = 0;
     }
-    if (nextTimeEnd >= 24) {
-      nextTimeEnd = nextTimeEnd - 24 ;
+    if (this.nextTimeEnd >= 24) {
+      this.nextTimeEnd = this.nextTimeEnd - 24 ;
     }
 
-    const prevTimeStartStr = prevTimeStart + ':00' ;
-    const nowTimeStartStr = time.getHours() + ':00';
-    const  nextTimeStartStr = nextTimeStart + ':00';
-    console.log(prevTimeStartStr);
-    console.log(nowTimeStartStr);
-    console.log(nextTimeStartStr);
-    this.getTimeLecs(prevTimeStartStr , nowTimeStartStr,).then((result) => {
-      // console.log(result);
-      this.previousData = result;
-      this.getTimeLecs(nowTimeStartStr, nextTimeStartStr).then((resultCurr) => {
-        this.currentData = resultCurr;
-        this.getTimeLecs(nextTimeStartStr , nextTimeEnd ).then((resultNext) => {
-          this.nextData = resultNext;
-          console.log(this.previousData);
-          console.log(this.currentData);
-          // this.createDataSet();
-          const maxNum: number = Math.max(this.previousData.length , this.currentData.length , this.nextData.length);
-          console.log(maxNum);
-        });
-      });
+    this.prevTimeStartStr = prevTimeStart + ':00' ;
+    this.nowTimeStartStr = time.getHours() + ':00';
+    this.nextTimeStartStr = nextTimeStart + ':00';
+    this.nextTimeEnd = time.getHours() + 2;
+    console.log(this.prevTimeStartStr);
+    console.log(this.nowTimeStartStr);
+    console.log(this.nextTimeStartStr);
+    this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr).then(() => {
+      console.log(this.timeTableData);
     });
-    // finalFunction();
+    // console.log(this.timeTableData);
+    return this.timeTableData;
   }
+  async getTimeLecsBefore( timeStart , timeEnd ) {
+    // this.output.length = 0;
+    const output = [];
+    console.log(timeStart);
+    console.log(timeEnd);
+    // to get the lectures which started during that period or continuing from previous periods
+    this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+      .valueChanges().subscribe(data => {
+      data.forEach(d => {
+        if (d.endTime > '08:00' ) {
+          output.push(d);
+          // console.log(d);
+        }
+        // console.log(d.endTime);
+      });
+      this.previousData = output;
+      this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr);
 
-  f1( para ){
-    console.log(para);
-    this.getTimeLecs(sds,dsds,f2)
+      console.log(output);
+      // return output;
+    });
+    // getPreviousLectures(timeStr)
   }
-
-  f2(para){
-    console.log()
-  }
-  async getTimeLecs( timeStart , timeEnd,callback ) {
+  getTimeLecsNow( timeStart , timeEnd ) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -92,22 +103,44 @@ export  class CurrentViewController {
         }
         // console.log(d.endTime);
       });
-      callback(x);
-      // this.output.forEach(op => {
-      //   console.log('output' + op.startTime);
-      // });
+      this.currentData = output;
+      this.getTimeLecsNext(this.prevTimeStartStr, this.nextTimeEnd);
 
       console.log(output);
       // return output;
-    })
-    return output;
+    });
     // getPreviousLectures(timeStr)
   }
 
-  createDataSet(){
+  getTimeLecsNext( timeStart , timeEnd ) {
+    // this.output.length = 0;
+    const output = [];
+    console.log(timeStart);
+    console.log(timeEnd);
+    // to get the lectures which started during that period or continuing from previous periods
+    this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+      .valueChanges().subscribe(data => {
 
-    for (var i = 0 ; i < maxNum; i++) {
+      data.forEach(d => {
+        if (d.endTime > '08:00' ) {
+          output.push(d);
+        }
+      });
+      this.nextData = output;
+      this.createDataSet();
+      // console.log(output);
 
+    });
+  }
+  createDataSet() {
+  const maxNum: number = Math.max(this.previousData.length , this.currentData.length , this.nextData.length);
+    for (let i = 0 ; i < maxNum; i++) {
+      const dataRow = {
+        previousSlot: this.previousData[i],
+        currentSlot: this.currentData[i] ,
+        nextSlot: this.nextData[i]  ,
+      };
+      this.timeTableData.push(dataRow);
     }
   }
 }
