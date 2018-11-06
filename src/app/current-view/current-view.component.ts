@@ -60,7 +60,11 @@ export class CurrentViewComponent implements OnInit {
     // this.CurrentViewController  = new CurrentViewController(db);
     // this.CurrentViewController.getLectureDetails();
     this.database = db;
-    this.timeTableData = new CurrentViewController(this.database).getLectureShedule();
+    new CurrentViewController(this.database).getLectureShedule((data)=>{
+      console.log('time table data ' + data);
+      this.timeTableData = data;
+    });
+    console.log('time table data ' + this.timeTableData);
 
   }
   database: object ;

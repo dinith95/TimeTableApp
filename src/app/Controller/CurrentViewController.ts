@@ -15,7 +15,7 @@ export  class CurrentViewController {
   previousData: Lecture[] = [];
   currentData: Lecture[] = [];
   nextData: Lecture[] = [];
-  timeTableData: currentViewFormat[] = [];
+  timeTableData: CurrentViewFormat[] = [];
   db: object ;
   date: number ;
   // the time periods variables
@@ -35,8 +35,9 @@ export  class CurrentViewController {
 
   }
 
-  async getLectureShedule() {
+  async getLectureShedule(returnFunction) {
     const time = new Date();
+    // let returnFunction = this.returnData();
 
     let prevTimeStart = time.getHours() - 1 ;
     let nextTimeStart = time.getHours() + 1   ;
@@ -58,11 +59,15 @@ export  class CurrentViewController {
     console.log(this.prevTimeStartStr);
     console.log(this.nowTimeStartStr);
     console.log(this.nextTimeStartStr);
-    await this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr);
+    await this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr,returnFunction);
     // console.log(this.timeTableData);
+    // return this.timeTableData;
+  }
+
+   returnData() {
     return this.timeTableData;
   }
-  async getTimeLecsBefore( timeStart , timeEnd ) {
+  async getTimeLecsBefore( timeStart , timeEnd ,returnFunction) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -78,14 +83,14 @@ export  class CurrentViewController {
         // console.log(d.endTime);
       });
       this.previousData = output;
-      this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr);
+      this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr,returnFunction);
 
       console.log(output);
       // return output;
     });
     // getPreviousLectures(timeStr)
   }
-  getTimeLecsNow( timeStart , timeEnd ) {
+  getTimeLecsNow( timeStart , timeEnd , returnFunction) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -102,7 +107,7 @@ export  class CurrentViewController {
         // console.log(d.endTime);
       });
       this.currentData = output;
-      this.getTimeLecsNext(this.prevTimeStartStr, this.nextTimeEnd);
+      this.getTimeLecsNext(this.prevTimeStartStr, this.nextTimeEnd , returnFunction);
 
       console.log(output);
       // return output;
@@ -110,7 +115,7 @@ export  class CurrentViewController {
     // getPreviousLectures(timeStr)
   }
 
-  getTimeLecsNext( timeStart , timeEnd ) {
+  getTimeLecsNext( timeStart , timeEnd , returnFunction) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -126,6 +131,7 @@ export  class CurrentViewController {
       });
       this.nextData = output;
       this.createDataSet();
+      returnFunction = this.returnData();
       // console.log(output);
 
     });
@@ -140,5 +146,6 @@ export  class CurrentViewController {
       };
       this.timeTableData.push(dataRow);
     }
+    
   }
 }
