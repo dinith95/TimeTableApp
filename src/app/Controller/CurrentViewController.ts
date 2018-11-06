@@ -35,7 +35,7 @@ export  class CurrentViewController {
 
   }
 
-  getLectureShedule() {
+  async getLectureShedule() {
     const time = new Date();
 
     let prevTimeStart = time.getHours() - 1 ;
@@ -58,9 +58,7 @@ export  class CurrentViewController {
     console.log(this.prevTimeStartStr);
     console.log(this.nowTimeStartStr);
     console.log(this.nextTimeStartStr);
-    this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr).then(() => {
-      console.log(this.timeTableData);
-    });
+    await this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr);
     // console.log(this.timeTableData);
     return this.timeTableData;
   }
