@@ -25,7 +25,7 @@ export class CurrentViewComponent implements OnInit {
   //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
   //   },
   // ];
-  timeTableData: CurrentViewFormat = [];
+   const timeTableData: CurrentViewFormat = [];
 // previousSlotInfo: object[] = [
 //   {
 //     code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'

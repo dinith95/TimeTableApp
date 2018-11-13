@@ -73,8 +73,10 @@ export  class CurrentViewController {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
-      .valueChanges().subscribe(data => {
+    const dataSet = await this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+      ;
+    dataSet.valueChanges().subscribe(data => {
+      console.log('inside subscribe');
       data.forEach(d => {
         if (d.endTime > '08:00' ) {
           output.push(d);
@@ -88,6 +90,7 @@ export  class CurrentViewController {
       console.log(output);
       // return output;
     });
+    console.log('ecuted : dj 1995');
     // getPreviousLectures(timeStr)
   }
   getTimeLecsNow( timeStart , timeEnd , returnFunction) {
