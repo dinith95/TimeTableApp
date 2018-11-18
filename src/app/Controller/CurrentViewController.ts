@@ -16,7 +16,7 @@ export  class CurrentViewController {
   currentData: Lecture[] = [];
   nextData: Lecture[] = [];
   timeTableData: CurrentViewFormat[] = [];
-  db: object ;
+  db: any ;
   date: number ;
   // the time periods variables
   prevTimeStartStr: string;
@@ -35,7 +35,7 @@ export  class CurrentViewController {
 
   }
 
-  async getLectureShedule(returnFunction) {
+  async getLectureShedule() {
     const time = new Date();
     // let returnFunction = this.returnData();
 
@@ -59,23 +59,21 @@ export  class CurrentViewController {
     console.log(this.prevTimeStartStr);
     console.log(this.nowTimeStartStr);
     console.log(this.nextTimeStartStr);
-    await this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr,returnFunction);
+    await this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr);
     // console.log(this.timeTableData);
     // return this.timeTableData;
   }
 
-   returnData() {
-    return this.timeTableData;
-  }
-  async getTimeLecsBefore( timeStart , timeEnd ,returnFunction) {
+   
+  async getTimeLecsBefore( timeStart , timeEnd ) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    const dataSet = await this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
-      ;
-    dataSet.valueChanges().subscribe(data => {
+    this.db.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+      .valueChanges()
+      .subscribe(data => {
       console.log('inside subscribe');
       data.forEach(d => {
         if (d.endTime > '08:00' ) {
@@ -85,15 +83,12 @@ export  class CurrentViewController {
         // console.log(d.endTime);
       });
       this.previousData = output;
-      this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr,returnFunction);
-
-      console.log(output);
-      // return output;
+      this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr);
     });
     console.log('ecuted : dj 1995');
     // getPreviousLectures(timeStr)
   }
-  getTimeLecsNow( timeStart , timeEnd , returnFunction) {
+  getTimeLecsNow( timeStart , timeEnd ) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -110,7 +105,7 @@ export  class CurrentViewController {
         // console.log(d.endTime);
       });
       this.currentData = output;
-      this.getTimeLecsNext(this.prevTimeStartStr, this.nextTimeEnd , returnFunction);
+      this.getTimeLecsNext(this.prevTimeStartStr, this.nextTimeEnd );
 
       console.log(output);
       // return output;
@@ -118,7 +113,7 @@ export  class CurrentViewController {
     // getPreviousLectures(timeStr)
   }
 
-  getTimeLecsNext( timeStart , timeEnd , returnFunction) {
+  getTimeLecsNext( timeStart , timeEnd ) {
     // this.output.length = 0;
     const output = [];
     console.log(timeStart);
@@ -134,13 +129,13 @@ export  class CurrentViewController {
       });
       this.nextData = output;
       this.createDataSet();
-      returnFunction = this.returnData();
+      // returnFunction = this.returnData();
       // console.log(output);
 
     });
   }
   createDataSet() {
-  const maxNum: number = Math.max(this.previousData.length , this.currentData.length , this.nextData.length);
+    const maxNum: number = Math.max(this.previousData.length , this.currentData.length , this.nextData.length);
     for (let i = 0 ; i < maxNum; i++) {
       const dataRow = {
         previousSlot: this.previousData[i],
@@ -149,6 +144,7 @@ export  class CurrentViewController {
       };
       this.timeTableData.push(dataRow);
     }
+    return this.timeTableData;
     
   }
 }
