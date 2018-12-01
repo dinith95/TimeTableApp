@@ -14,19 +14,20 @@ import lecture, {default as Lecture} from '../Controller/Lecture';
 })
 
 export class CurrentViewComponent implements OnInit {
-  // timeTableData: CurrentViewFormat[] = [
-  //   {
-  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-  //     currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
-  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
-  //   },
-  //   {
-  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-  //     currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
-  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
-  //   },
-  // ];
-   timeTableData: CurrentViewFormat[] = [];
+  // the hard coded view time table data format
+  timeTableData: CurrentViewFormat[] = [
+    {
+      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+      currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
+      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
+    },
+    {
+      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+      currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
+      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
+    },
+  ];
+  //  timeTableData: CurrentViewFormat[] = [];
 // 
   constructor(db: AngularFireDatabase) {
     this.time = new Date();
@@ -36,7 +37,7 @@ export class CurrentViewComponent implements OnInit {
     // new CurrentViewController(this.database).getLectureShedule().then((data)=> {
     //   console.log(data);
     // })
-    this.getLectureShedule();
+    // this.getLectureShedule();
 
   }
   database: any ;
@@ -105,7 +106,7 @@ export class CurrentViewComponent implements OnInit {
     }
     this.timeSlotNext = startTime + ' - ' + endTime;
 
-
+    this.getLectureShedule();
 
   }
 
@@ -215,13 +216,15 @@ export class CurrentViewComponent implements OnInit {
         currentSlot: this.currentData[i] ,
         nextSlot: this.nextData[i]  ,
       };
+      console.log('data row');
+      console.log(dataRow);
       this.timeTableData.push(dataRow);
 
     }
     console.log(this.timeTableData);
     
     
-  }
+    }
   }
 
 
