@@ -15,19 +15,19 @@ import lecture, {default as Lecture} from '../Controller/Lecture';
 
 export class CurrentViewComponent implements OnInit {
   // the hard coded view time table data format
-  timeTableData: CurrentViewFormat[] = [
-    {
-      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-      currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
-      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
-    },
-    {
-      previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
-      currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
-      nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
-    },
-  ];
-  //  timeTableData: CurrentViewFormat[] = [];
+  // timeTableData: CurrentViewFormat[] = [
+  //   {
+  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+  //     currentSlot: {code: 'inter 12213', name: 'coding', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'} ,
+  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'},
+  //   },
+  //   {
+  //     previousSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f1'},
+  //     currentSlot: {code: 'inter 12213', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f2'} ,
+  //     nextSlot: {code: 'inter 2222', name: 'programming', location: 'hall01', startingTime: '8 A.M', endingTime: '9 A.M.', floor: 'f3'},
+  //   },
+  // ];
+   timeTableData: CurrentViewFormat[] = [];
 // 
   constructor(db: AngularFireDatabase) {
     this.time = new Date();
@@ -45,7 +45,7 @@ export class CurrentViewComponent implements OnInit {
   timeslotCurrent: string;
   timeSlotNext: string;
   time: Date;
-  dataSource = this.timeTableData;
+  dataSource ;
   displayedColumns: string[] = ['previousSlot', 'currentSlot', 'nextSlot'];
 
   // data for the current view controller 
@@ -145,12 +145,12 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
       .valueChanges()
       .subscribe(data => {
       console.log('inside subscribe');
       data.forEach(d => {
-        if (d.endTime > '08:00' ) {
+        if (d.endingTime > '08:00' ) {
           output.push(d);
           // console.log(d);
         }
@@ -168,11 +168,11 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {
-        if (d.endTime > '08:00' ) {
+        if (d.endingTime > '08:00' ) {
           output.push(d);
           // console.log(d);
         }
@@ -193,11 +193,11 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {
-        if (d.endTime > '08:00' ) {
+        if (d.endingTime > '08:00' ) {
           output.push(d);
         }
       });
@@ -222,6 +222,7 @@ export class CurrentViewComponent implements OnInit {
 
     }
     console.log(this.timeTableData);
+    this.dataSource = this.timeTableData;
     
     
     }
