@@ -131,9 +131,9 @@ export class CurrentViewComponent implements OnInit {
     this.nowTimeStartStr = time.getHours() + ':00';
     this.nextTimeStartStr = nextTimeStart + ':00';
     this.nextTimeEnd = time.getHours() + 2;
-    console.log(this.prevTimeStartStr);
-    console.log(this.nowTimeStartStr);
-    console.log(this.nextTimeStartStr);
+    // console.log(this.prevTimeStartStr);
+    // console.log(this.nowTimeStartStr);
+    // console.log(this.nextTimeStartStr);
     this.getTimeLecsBefore(this.prevTimeStartStr , this.nowTimeStartStr);
     // console.log(this.timeTableData);
     // return this.timeTableData;
@@ -145,12 +145,12 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart+1))
       .valueChanges()
       .subscribe(data => {
       console.log('inside subscribe');
       data.forEach(d => {
-        if (d.endingTime > '08:00' ) {
+        if (d.endingTime > (timeEnd - 1) ) {
           output.push(d);
           // console.log(d);
         }
@@ -159,7 +159,6 @@ export class CurrentViewComponent implements OnInit {
       this.previousData = output;
       this.getTimeLecsNow(this.nowTimeStartStr , this.nextTimeStartStr);
     });
-    console.log('ecuted : dj 1995');
     // getPreviousLectures(timeStr)
   }
   getTimeLecsNow( timeStart , timeEnd ) {
@@ -168,11 +167,11 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart + 1))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {
-        if (d.endingTime > '08:00' ) {
+        if (d.endingTime > (timeEnd -1) ) {
           output.push(d);
           // console.log(d);
         }
@@ -193,11 +192,11 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt('09:00'))
+    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart +1))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {
-        if (d.endingTime > '08:00' ) {
+        if (d.endingTime > (timeEnd - 1) ) {
           output.push(d);
         }
       });
