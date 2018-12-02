@@ -11,12 +11,13 @@ import * as moment from 'moment';
   styleUrls: ['./time-table.component.css']
 })
 export class TimeTableComponent implements OnInit {
-  ELEMENT_DATA: any[] = [
-    {hall: '1', t8to9: 'sub1a', t9to10: 'sub2a' , t10to11: 'sub3a', t11to12: 'sub4a' ,
-      t13to14: 'sub5a', t14to15: 'sub6a', t15to16: 'sub7a', floor: 'f1'},
-    {hall: '2', t8to9: 'sub1b', t9to10: 'sub2b' , t10to11: 'sub3b', t11to12: 'sub4b',
-      t13to14: 'sub5b', t14to15: 'sub6a', t15to16: 'sub7a', floor: 'f2' },
-  ];
+  // todaysShedule: any[] = [
+  //   {hall: '1', t8to9: 'sub1a', t9to10: 'sub2a' , t10to11: 'sub3a', t11to12: 'sub4a' ,
+  //     t13to14: 'sub5a', t14to15: 'sub6a', t15to16: 'sub7a', floor: 'f1'},
+  //   {hall: '2', t8to9: 'sub1b', t9to10: 'sub2b' , t10to11: 'sub3b', t11to12: 'sub4b',
+  //     t13to14: 'sub5b', t14to15: 'sub6a', t15to16: 'sub7a', floor: 'f2' },
+  // ];
+  todaysShedule: any[] = [];
   months: string[] = new Array('January', 'February', 'March', 'April', 'May',
     'June', 'July', 'August', 'September', 'October', 'November', 'December');
   weekdays: string[] = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
@@ -33,7 +34,7 @@ export class TimeTableComponent implements OnInit {
   todayDate: string;
   todayTime: string;
   dataSource ;
-  displayedColumns: string[] = ['Hall', 't8to9', 't9to10' , 't10to11' , 't11to12' , 't13to14', 't14to15' , 't15to16'];
+  displayedColumns: string[] = ['Hall', 't8to9', 't9to10' , 't10to11' , 't11to12' , 't13to14', 't14to15' , 't15to16', 't16to17'];
 
   ngOnInit() {
       // setInterval(function () {
@@ -89,13 +90,14 @@ export class TimeTableComponent implements OnInit {
           t13to14: hallShedule[4],
           t14to15: hallShedule[5],
           t15to16: hallShedule[6],
+          t16to17: hallShedule[6],
           floor: 1
          }
          console.log(hallSheduleStructure);
-         this.ELEMENT_DATA.push(hallSheduleStructure);
+         this.todaysShedule.push(hallSheduleStructure);
       });
 
-      this.dataSource = this.ELEMENT_DATA;
+      this.dataSource = this.todaysShedule;
 
     });
   }
