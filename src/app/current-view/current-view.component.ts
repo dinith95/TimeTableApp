@@ -31,20 +31,16 @@ export class CurrentViewComponent implements OnInit {
 // 
   constructor(db: AngularFireDatabase) {
     this.time = new Date();
-    // this.CurrentViewController  = new CurrentViewController(db);
-    // this.CurrentViewController.getLectureDetails();
     this.database = db;
-    // new CurrentViewController(this.database).getLectureShedule().then((data)=> {
-    //   console.log(data);
-    // })
-    // this.getLectureShedule();
-
+    this.dayNumber = this.time.getDay();
+    // console.log(this.dayNumber);
   }
   database: any ;
   timeSlotPrevios: string;
   timeslotCurrent: string;
   timeSlotNext: string;
   time: Date;
+  dayNumber: number ; // the number of the day in the week
   dataSource ;
   displayedColumns: string[] = ['previousSlot', 'currentSlot', 'nextSlot'];
 
@@ -145,7 +141,7 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart+1))
+    this.database.list('/' + this.dayNumber , ref => ref.orderByChild('startingTime').endAt(timeStart+1))
       .valueChanges()
       .subscribe(data => {
       console.log('inside subscribe');
@@ -167,7 +163,7 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart + 1))
+    this.database.list('/' + this.dayNumber , ref => ref.orderByChild('startingTime').endAt(timeStart + 1))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {
@@ -192,7 +188,7 @@ export class CurrentViewComponent implements OnInit {
     console.log(timeStart);
     console.log(timeEnd);
     // to get the lectures which started during that period or continuing from previous periods
-    this.database.list('/' + '1' , ref => ref.orderByChild('startingTime').endAt(timeStart +1))
+    this.database.list('/' + this.dayNumber , ref => ref.orderByChild('startingTime').endAt(timeStart +1))
       .valueChanges().subscribe(data => {
 
       data.forEach(d => {

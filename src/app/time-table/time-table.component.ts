@@ -58,7 +58,9 @@ export class TimeTableComponent implements OnInit {
   }
 
   private getTimetableStructure(){
-    this.database.list('/' + '1' )
+    var today = new Date().getDay();
+    // console.log(today);
+    this.database.list('/' + today )
       .valueChanges().subscribe((lectureInfo: Array<any>) => {
 
       console.log(lectureInfo);
