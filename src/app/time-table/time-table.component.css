@@ -25,6 +25,16 @@ th{
   font-weight: 900;
 }
 
+td{
+  /* align-items: center; */
+  text-align: center;
+  border-right-style: solid;
+  border-right-color: rgb(3, 3, 48);
+  border-right-width: 1px
+  
+  
+}
+
 .hall{
   background-color: #b4ffe9;
   font-size: 15px;
