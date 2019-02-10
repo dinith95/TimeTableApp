@@ -11,13 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimeTableComponent } from './time-table/time-table.component';
-
+import { UtilService } from './shared/services/util/util.service';
 import {MatCardModule,
         MatTableModule,
 
 
 } from '@angular/material';
 import { CurrentViewComponent } from './current-view/current-view.component';
+import { DigitalClockComponent } from './digital-clock/digital-clock.component';
 
 
 
@@ -27,6 +28,7 @@ import { CurrentViewComponent } from './current-view/current-view.component';
     AppComponent,
     TimeTableComponent,
     CurrentViewComponent,
+    DigitalClockComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +40,12 @@ import { CurrentViewComponent } from './current-view/current-view.component';
     // AngularFirestoreModule,
     AngularFireDatabaseModule,
   ],
-  providers: [],
+  
+  providers:[UtilService],
   bootstrap: [AppComponent]
+
 })
+
 export class AppModule {
 
   // constructor(private  router: Router) {
@@ -55,3 +60,5 @@ export class AppModule {
   //   }, 8000);
   // }
 }
+
+
